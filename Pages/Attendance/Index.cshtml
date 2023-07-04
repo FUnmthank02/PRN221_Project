@@ -1,0 +1,327 @@
+﻿@page "/time-table"
+@using PRN221_Project.Business.DTO
+@model PRN221_Project.Pages.Attendance.IndexModel
+@{
+    ViewData[Constants.TITLE_KEY] = Constants.TITLE_TIME_TABLE;
+    ViewData[Constants.PAGE_KEY] = Constants.PAGE_TIME_TABLE;
+}
+
+<style>
+    ::-webkit-scrollbar {
+        display: none;
+    }
+
+    .title-text {
+        margin: 30px 0;
+    }
+
+    /*time table*/
+    body {
+        margin-top: 20px;
+        position: relative;
+    }
+
+    .bg-light-gray {
+        background-color: #f7f7f7;
+    }
+
+    .table-bordered thead td, .table-bordered thead th {
+        border-bottom-width: 2px;
+    }
+
+    .table thead th {
+        vertical-align: bottom;
+        border-bottom: 2px solid #dee2e6;
+    }
+
+    .table-bordered td, .table-bordered th {
+        border: 1px solid #dee2e6;
+    }
+
+    .margin-10px-bottom {
+        margin-bottom: 10px;
+    }
+
+    .margin-10px-top {
+        margin-top: 10px;
+    }
+
+    .font-size14 {
+        font-size: 14px;
+    }
+
+    .text-light-gray {
+        color: #d6d5d5;
+    }
+
+    .font-size13 {
+        font-size: 13px;
+    }
+
+    .table-bordered td, .table-bordered th {
+        border: 1px solid #dee2e6;
+    }
+
+    .table td, .table th {
+        padding: .75rem;
+        vertical-align: top;
+        border-top: 1px solid #dee2e6;
+    }
+
+    .table tbody tr:last-child td {
+        border-width: thin !important;
+    }
+
+    .select-tag-style {
+        width: 40% !important;
+    }
+
+    #current-year-text {
+        color: red;
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    
+    .wrap-notification {
+        padding: 10px 20px;
+        position: fixed;
+        top: 30px;
+        right: 0;
+        border-radius: 5px;
+        display: none;
+    }
+
+    .noti-success {
+        background: lightGreen;
+    }
+
+    .noti-fail {
+        background: red;
+    }
+
+    .wrap-notification div {
+        color: #ffffff;
+        font-size: 18px;
+        text-align: left;
+    }
+
+    .active {
+        display: block;
+    }
+</style>
+
+<h1 class="title-text">Time Table @TempData["mess"]</h1>
+
+<div class="container mb-4">
+    <form id="form-select-week" method="get" asp-page="Index">
+        <div class="form-group">
+            <label>Year</label>&ensp;
+            <span id="current-year-text"></span>
+        </div>
+        <div class="form-group">
+            <label for="week-select">Week</label>
+            <select class="form-control select-tag-style" name="selectedWeek" id="week-select" onchange="handleSelectWeek(event)"></select>
+        </div>
+    </form>
+</div>
+
+<div class="container">
+    <div class="table-responsive">
+        <table class="table table-bordered text-center">
+            <thead>
+                <tr class="bg-light-gray">
+                    <th class="text-uppercase">
+                        Time
+                    </th>
+                    <th class="text-uppercase">Monday</th>
+                    <th class="text-uppercase">Tuesday</th>
+                    <th class="text-uppercase">Wednesday</th>
+                    <th class="text-uppercase">Thursday</th>
+                    <th class="text-uppercase">Friday</th>
+                    <th class="text-uppercase">Saturday</th>
+                    <th class="text-uppercase">Sunday</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 1; i <= 4; i++)
+                {
+                    var slotList = Model.GetType().GetProperty($"listSlot{i}").GetValue(Model) as List<SessionDTO>;
+                    <tr>
+                        <td class="align-middle">Slot @i</td>
+
+                        @foreach (SessionDTO item in slotList)
+                        {
+                            if (item.Date.DayOfWeek == DayOfWeek.Monday)
+                            {
+                                <td>
+                                    <a asp-page="Attendance" asp-route-sessionId="@item.SessionId" asp-route-groupId="@item.GroupId" class="margin-10px-bottom text-primary font-size16 xs-font-size13">
+                                        @item.Group.Subject.SubjectName
+                                    </a>
+                                    <div class="margin-10px-top font-size14">At @item.Room.RoomName</div>
+                                    <div class="margin-10px-top font-size14">@item.Slot.Start - @item.Slot.End</div>
+                                    <div class="margin-10px-top font-size14 font-weight-bold">@item.Group.Lecture.LectureName</div>
+                                </td>
+                            }
+                            else
+                            {
+                                <td></td>
+                            }
+
+                            if (item.Date.DayOfWeek == DayOfWeek.Tuesday)
+                            {
+                                <td>
+                                    <a asp-page="Attendance" asp-route-sessionId="@item.SessionId" asp-route-groupId="@item.GroupId" class="margin-10px-bottom text-primary font-size16 xs-font-size13">
+                                        @item.Group.Subject.SubjectName
+                                    </a>
+                                    <div class="margin-10px-top font-size14">At @item.Room.RoomName</div>
+                                    <div class="margin-10px-top font-size14">@item.Slot.Start - @item.Slot.End</div>
+                                    <div class="margin-10px-top font-size14 font-weight-bold">@item.Group.Lecture.LectureName</div>
+                                </td>
+                            }
+                            else
+                            {
+                                <td></td>
+                            }
+
+                            if (item.Date.DayOfWeek == DayOfWeek.Wednesday)
+                            {
+                                <td>
+                                    <a asp-page="Attendance" asp-route-sessionId="@item.SessionId" asp-route-groupId="@item.GroupId" class="margin-10px-bottom text-primary font-size16 xs-font-size13">
+                                        @item.Group.Subject.SubjectName
+                                    </a>
+                                    <div class="margin-10px-top font-size14">At @item.Room.RoomName</div>
+                                    <div class="margin-10px-top font-size14">@item.Slot.Start - @item.Slot.End</div>
+                                    <div class="margin-10px-top font-size14 font-weight-bold">@item.Group.Lecture.LectureName</div>
+                                </td>
+                            }
+                            else
+                            {
+                                <td></td>
+                            }
+
+                            if (item.Date.DayOfWeek == DayOfWeek.Thursday)
+                            {
+                                <td>
+                                    <a asp-page="Attendance" asp-route-sessionId="@item.SessionId" asp-route-groupId="@item.GroupId" class="margin-10px-bottom text-primary font-size16 xs-font-size13">
+                                        @item.Group.Subject.SubjectName
+                                    </a>
+                                    <div class="margin-10px-top font-size14">At @item.Room.RoomName</div>
+                                    <div class="margin-10px-top font-size14">@item.Slot.Start - @item.Slot.End</div>
+                                    <div class="margin-10px-top font-size14 font-weight-bold">@item.Group.Lecture.LectureName</div>
+                                </td>
+                            }
+                            else
+                            {
+                                <td></td>
+                            }
+
+                            if (item.Date.Date.DayOfWeek == DayOfWeek.Friday)
+                            {
+                                <td>
+                                    <a asp-page="Attendance" asp-route-sessionId="@item.SessionId" asp-route-groupId="@item.GroupId" class="margin-10px-bottom text-primary font-size16 xs-font-size13">
+                                        @item.Group.Subject.SubjectName
+                                    </a>
+                                    <div class="margin-10px-top font-size14">At @item.Room.RoomName</div>
+                                    <div class="margin-10px-top font-size14">@item.Slot.Start - @item.Slot.End</div>
+                                    <div class="margin-10px-top font-size14 font-weight-bold">@item.Group.Lecture.LectureName</div>
+                                </td>
+                            }
+                            else
+                            {
+                                <td></td>
+                            }
+                        }
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@if (TempData.ContainsKey(Constants.MESSAGE_KEY_RESPONSE))
+{
+    <div class="wrap-notification">
+        <div id="text-notification">@TempData[Constants.MESSAGE_KEY_RESPONSE]</div>
+    </div>
+
+    <script>
+        @*get element*@
+        const notification = document.querySelector(".wrap-notification");
+        const text_notification = document.querySelector("#text-notification");
+
+        if (text_notification.textContent.toLowerCase().includes("fail")) {
+            notification.classList.add("noti-fail");
+        } else {
+            notification.classList.add("noti-success");
+        }
+
+        @*add class*@
+            notification.classList.add("active");
+
+        @*remove class after 1s*@
+            setTimeout(() => {
+                notification.classList.remove("active");
+            }, 1000);
+    </script>
+}
+
+<script>
+    const weekSelect = document.getElementById("week-select");
+    const currentYearText = document.getElementById("current-year-text");
+    const formSelectWeek = document.getElementById("form-select-week");
+
+    // Get the current year
+    const currentYear = new Date().getFullYear();
+    currentYearText.innerHTML = currentYear;
+
+    // Populate week options for the current year
+    updateWeeks();
+
+    function updateWeeks() {
+        const year = currentYear;
+        const firstMonday = new Date(year, 0, 1 + (8 - new Date(year, 0, 1).getDay()) % 7);
+        const numWeeks = getISOWeeksInYear(year);
+
+        // Create a document fragment to hold the options
+        const fragment = document.createDocumentFragment();
+
+        for (let i = 1; i <= numWeeks; i++) {
+            const startDate = new Date(firstMonday.getTime() + (i - 1) * 7 * 24 * 60 * 60 * 1000);
+            const endDate = new Date(startDate.getTime() + 6 * 24 * 60 * 60 * 1000);
+            const optionText = `${startDate.getDate().toString().padStart(2, '0')}/${(startDate.getMonth() + 1).toString().padStart(2, '0')} to ${endDate.getDate().toString().padStart(2, '0')}/${(endDate.getMonth() + 1).toString().padStart(2, '0')}`;
+            const option = document.createElement("option");
+            option.text = optionText;
+            option.value = `${currentYear}-${(startDate.getMonth() + 1).toString().padStart(2, '0')}-${startDate.getDate().toString().padStart(2, '0')} ${currentYear}-${(endDate.getMonth() + 1).toString().padStart(2, '0')}-${endDate.getDate().toString().padStart(2, '0')}`;
+
+            // Append the option to the fragment
+            fragment.appendChild(option);
+        }
+
+        // Clear existing options
+        weekSelect.innerHTML = "";
+
+        // Append the fragment to the weekSelect element
+        weekSelect.appendChild(fragment);
+    }
+
+    function getISOWeeksInYear(year) {
+        const firstDayOfYear = new Date(year, 0, 1);
+        const fourthOfJanuaryOffset = 3 - firstDayOfYear.getDay();
+        const normalizedFourthOfJanuary = new Date(year, 0, 4 + fourthOfJanuaryOffset);
+        const daysInYear = (new Date(year + 1, 0, 1) - new Date(year, 0, 1)) / (24 * 60 * 60 * 1000);
+        return Math.floor((daysInYear - (7 - normalizedFourthOfJanuary.getDay())) / 7);
+    }
+
+    function handleSelectWeek(event) {
+        formSelectWeek.submit()
+    }
+
+    //set current value to select
+    weekSelect.value = '@Model.SelectedWeek';
+</script>
