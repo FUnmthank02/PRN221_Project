@@ -1,0 +1,5 @@
+﻿@{
+    Layout = Constants.LAYOUT_NAME;
+    var httpContext = ViewContext.HttpContext;
+    ViewData["isLoggedIn"] = httpContext.Session.GetInt32(Constants.LECTURE_ID_KEY);
+}
