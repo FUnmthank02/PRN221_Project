@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "G:\\CODE\\dotNet\\PRN221_Project\\PRN221_Project\\PRN221_Project.csproj": {}
+    "G:\\Github-source\\PRN221_Project\\PRN221_Project\\PRN221_Project.csproj": {}
   },
   "projects": {
-    "G:\\CODE\\dotNet\\PRN221_Project\\PRN221_Project\\PRN221_Project.csproj": {
+    "G:\\Github-source\\PRN221_Project\\PRN221_Project\\PRN221_Project.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "G:\\CODE\\dotNet\\PRN221_Project\\PRN221_Project\\PRN221_Project.csproj",
+        "projectUniqueName": "G:\\Github-source\\PRN221_Project\\PRN221_Project\\PRN221_Project.csproj",
         "projectName": "PRN221_Project",
-        "projectPath": "G:\\CODE\\dotNet\\PRN221_Project\\PRN221_Project\\PRN221_Project.csproj",
+        "projectPath": "G:\\Github-source\\PRN221_Project\\PRN221_Project\\PRN221_Project.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "G:\\CODE\\dotNet\\PRN221_Project\\PRN221_Project\\obj\\",
+        "outputPath": "G:\\Github-source\\PRN221_Project\\PRN221_Project\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",

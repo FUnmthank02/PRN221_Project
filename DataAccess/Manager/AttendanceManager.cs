@@ -88,8 +88,12 @@ namespace PRN221_Project.DataAccess.Manager
         {
             try
             {
-                _context.Attach(attendance);
-                _context.Entry(attendance).State = EntityState.Modified;
+                var curAttendance = _context.Attendances.Find(attendance.AttendanceId);
+                if (curAttendance == null)
+                {
+                    throw new Exception("Attendance not found");
+                }
+                _context.Entry(curAttendance).CurrentValues.SetValues(attendance);
                 return _context.SaveChanges();
             } catch(Exception ex)
             {

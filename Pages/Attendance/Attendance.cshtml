@@ -1,0 +1,171 @@
+﻿@page "/attendance"
+@using PRN221_Project.Business.DTO
+@model PRN221_Project.Pages.AttendanceModel
+@{
+    ViewData[Constants.TITLE_KEY] = Constants.TITLE_ATTENDANCE;
+    ViewData[Constants.PAGE_KEY] = Constants.PAGE_ATTENDANCE;
+    var HasAttendances = Model.ListAttendances.Count > 0;
+}
+
+<style>
+    ::-webkit-scrollbar {
+        display: none;
+    }
+
+    .title-text {
+        margin: 30px 0;
+    }
+
+    /*time table*/
+    body {
+        margin-top: 20px;
+    }
+
+    .bg-light-gray {
+        background-color: #f7f7f7;
+    }
+
+    .table-bordered thead td, .table-bordered thead th {
+        border-bottom-width: 2px;
+    }
+
+    .table thead th {
+        vertical-align: bottom;
+        border-bottom: 2px solid #dee2e6;
+    }
+
+    .table-bordered td, .table-bordered th {
+        border: 1px solid #dee2e6;
+    }
+
+    .margin-10px-bottom {
+        margin-bottom: 10px;
+    }
+
+    .margin-10px-top {
+        margin-top: 10px;
+    }
+
+    .font-size14 {
+        font-size: 14px;
+    }
+
+    .text-light-gray {
+        color: #d6d5d5;
+    }
+
+    .font-size13 {
+        font-size: 13px;
+    }
+
+    .table-bordered td, .table-bordered th {
+        border: 1px solid #dee2e6;
+    }
+
+    .table td, .table th {
+        padding: .75rem;
+        vertical-align: top;
+        border-top: 1px solid #dee2e6;
+    }
+
+    .table tbody tr:last-child td {
+        border-width: thin !important;
+    }
+
+    .select-tag-style {
+        width: 40% !important;
+    }
+
+    #current-year-text {
+        color: red;
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    .btn-submit-attendance {
+        padding: 6px 12px;
+        background: #62CDFF;
+        border: none;
+        outline: none;
+        color: #fff;
+        border-radius: 5px;
+    }
+
+    .btn-submit-attendance:hover, .btn-submit-attendance:active {
+        background: #86d6f9;
+        border: none;
+        outline: none;
+    }
+
+    .btn-submit-attendance:disabled:hover {
+        background: #62CDFF;
+        border: none;
+        outline: none;
+    }
+
+    .form-check-input:hover {
+        cursor: pointer;
+    }
+
+    .wrap-btn-edit {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 10px;
+    }
+
+    .btn-edit-attendance {
+        padding: 6px 20px;
+    }
+</style>
+
+<h1 class="title-text">Attendance</h1>
+
+<div class="container">
+    <form method="post" asp-page="Attendance">
+        @if (HasAttendances)
+        {
+            <div class="wrap-btn-edit">
+                <button class="btn-submit-attendance btn-edit-attendance" type="button">Edit</button>
+            </div>
+        }
+        <div class="table-responsive">
+            <table class="table table-bordered text-center">
+                <thead>
+                    <tr class="bg-light-gray">
+                        <th class="text-uppercase">#</th>
+                        <th class="text-uppercase">Name</th>
+                        <th class="text-uppercase">ID</th>
+                        <th class="text-uppercase">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.ListEnrolls.Count; i++) {
+                        <tr>
+                            <td class="align-middle">@(i+1)</td>
+                            <td class="text-black font-size16 xs-font-size13 align-middle">@Model.ListEnrolls[i].Student.StudentName</td>
+                            <td class="text-black font-size16 xs-font-size13 align-middle">@Model.ListEnrolls[i].Student.StudentId</td>
+                            <td>
+                                <div class="form-check">
+                                    <input class="form-check-input radio-attendance" type="radio" name="AttendanceValues[@(i)]" id="absentRadio@(i)"
+                                       value="false" required @(HasAttendances ? (Model.ListAttendances[i].Status ? "" : "checked") : "")>
+                                    <label class="form-check-label text-black font-size16 xs-font-size13" for="absentRadio@(i)">
+                                        Absent
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input radio-attendance" type="radio" name="AttendanceValues[@(i)]" id="presentRadio@(i)"
+                                       value="true" required @(HasAttendances ? (Model.ListAttendances[i].Status ? "checked" : "") : "")>
+                                    <label class="form-check-label text-black font-size16 xs-font-size13" for="presentRadio@(i)">
+                                        Present
+                                    </label>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <button class="btn-submit-attendance btn-submit-form-attendance" type="submit">Submit</button>
+
+    </form>
+</div>
