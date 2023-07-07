@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PRN221_Project.DataAccess.Models;
+using PRN221_Project.Business.Helper;
 
 namespace PRN221_Project.DataAccess.Manager
 {
@@ -91,7 +92,7 @@ namespace PRN221_Project.DataAccess.Manager
                 var curAttendance = _context.Attendances.Find(attendance.AttendanceId);
                 if (curAttendance == null)
                 {
-                    throw new Exception("Attendance not found");
+                    throw new Exception(Constants.MESSAGE_UPDATE_ATTENDANCE_NOT_FOUND);
                 }
                 _context.Entry(curAttendance).CurrentValues.SetValues(attendance);
                 return _context.SaveChanges();

@@ -28,6 +28,7 @@
         public const string MESSAGE_ADD_ATTENDANCE_FAIL = "You have add attendances fail!";
         public const string MESSAGE_UPDATE_ATTENDANCE_SUCCESSFULLY = "You have update attendances successfully!";
         public const string MESSAGE_UPDATE_ATTENDANCE_FAIL = "You have update attendances fail!";
+        public const string MESSAGE_UPDATE_ATTENDANCE_NOT_FOUND = "Attendance not found";
 
         //constants routes
         public const string ROUTE_HOME = "/";
