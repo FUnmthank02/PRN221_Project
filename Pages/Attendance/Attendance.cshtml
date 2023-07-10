@@ -125,7 +125,7 @@
         @if (HasAttendances)
         {
             <div class="wrap-btn-edit">
-                <button class="btn-submit-attendance btn-edit-attendance" type="button">Edit</button>
+                <button class="btn-submit-attendance btn-edit-attendance" type="button" onclick="handleToggleDisableForm()">Edit</button>
             </div>
         }
         <div class="table-responsive">
@@ -169,3 +169,33 @@
 
     </form>
 </div>
+<script>
+    const btnEditAttendance = document.querySelector(".btn-edit-attendance");
+    const btnSubmitFormAttendance = document.querySelector(".btn-submit-form-attendance");
+    const listRadioAttendance = document.querySelectorAll(".radio-attendance");
+    let isDisabled = @Model.ListAttendances.Count > 0;
+
+    const handleDisableAll = () => {
+        listRadioAttendance.forEach(item => {
+            item.disabled = isDisabled;
+        });
+        btnSubmitFormAttendance.disabled = isDisabled;
+    };
+
+    handleDisableAll();
+
+    const handleToggleDisableForm = () => {
+        listRadioAttendance.forEach(item => {
+            item.disabled = !isDisabled;
+        });
+        btnSubmitFormAttendance.disabled = !isDisabled;
+        if (!btnSubmitFormAttendance.disabled) {
+            btnEditAttendance.innerHTML = "Is Editing...";
+            btnEditAttendance.style.background = "#e4316f";
+        } else {
+            btnEditAttendance.innerHTML = "Edit";
+            btnEditAttendance.style.background = "#62CDFF";
+        }
+        isDisabled = !isDisabled;
+    };
+</script>
