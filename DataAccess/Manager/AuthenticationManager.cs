@@ -18,5 +18,28 @@ namespace PRN221_Project.DataAccess.Manager
 
             return user.LectureId;
         }
+        public bool CheckUserExistByOldPassword(string oldPass, int lectureId)
+        {
+            var user = _context.Lectures.FirstOrDefault(x => x.LectureId == lectureId && x.Password.Equals(oldPass));
+            if (user == null)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public int? ChangePassword(string newPass, int lectureId)
+        {
+            var user = _context.Lectures.FirstOrDefault(x => x.LectureId == lectureId);
+            if (user == null)
+            {
+                return null;
+            }
+            else
+            {
+                user.Password = newPass;
+                return _context.SaveChanges();
+            }
+        }
     }
 }

@@ -16,6 +16,18 @@ namespace PRN221_Project.Business.Repository
             _mapper = mapper;
         }
 
+        public int? ChangePassword(string newPass, int lectureId)
+        {
+            manager = new AuthenticationManager(_context);
+            return manager.ChangePassword(newPass, lectureId);
+        }
+
+        public bool CheckUserExistByOldPassword(string oldPass, int lectureId)
+        {
+            manager = new AuthenticationManager(_context);
+            return manager.CheckUserExistByOldPassword(oldPass, lectureId);
+        }
+
         public int? LogIn(string username, string password)
         {
             int? lectureId;

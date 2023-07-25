@@ -39,9 +39,9 @@ namespace PRN221_Project.Pages.Attendance
                 // Parse from string to DateTime
                 startDate = DateTime.ParseExact(startDateString, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                 endDate = DateTime.ParseExact(endDateString, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+                SelectedWeek = $"{startDate.ToString("yyyy-MM-dd")} {endDate.ToString("yyyy-MM-dd")}";
             }
 
-            SelectedWeek = $"{startDate.ToString("yyyy-MM-dd")} {endDate.ToString("yyyy-MM-dd")}";
             listSessions = _attendanceRepository.GetSessions(startDate, endDate);
             GetSubListBySlot();
         }
@@ -52,7 +52,7 @@ namespace PRN221_Project.Pages.Attendance
             int daysUntilMonday = ((int)DayOfWeek.Monday - (int)today.DayOfWeek + 7) % 7;
             DateTime monday = today.AddDays(daysUntilMonday - 7); // Subtract 7 to get the Monday of the current week
             string startDateString = monday.ToString("yyyy-MM-dd");
-            string endDateString = monday.AddDays(6).ToString("yyyy-MM-dd");
+            string endDateString = monday.AddDays(7).ToString("yyyy-MM-dd");
 
             startDate = DateTime.ParseExact(startDateString, "yyyy-MM-dd", CultureInfo.InvariantCulture);
             endDate = DateTime.ParseExact(endDateString, "yyyy-MM-dd", CultureInfo.InvariantCulture);
